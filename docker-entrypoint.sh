@@ -253,5 +253,7 @@ chmod 600 /dev/net/tun
 
 chmod -R 777 /config
 
+service nslcd start
+
 # Run OpenConnect Server
 exec "$@"
