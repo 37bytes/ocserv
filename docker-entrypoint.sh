@@ -227,6 +227,7 @@ EOSRV
       --standalone --preferred-challenges http --agree-tos --email $EMAIL -d $DOMAIN
     fi
 
+    mkdir /config/certs
     ln -s "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /config/certs/server-cert.pem
     ln -s "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /config/certs/server-key.pem
 
