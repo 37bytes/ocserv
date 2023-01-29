@@ -153,6 +153,8 @@ fi
 if [[ ! -z "${BINDPW}" ]]; then
     sed -i "s/^bindpw.*$/bindpw ${BINDPW}/" /config/pam_ldap.conf
     sed -i "s/^#bindpw.*$/bindpw ${BINDPW}/" /etc/nslcd.conf
+    echo "filter passwd (objectClass=user)" >> /etc/nslcd.conf
+    echo "map passwd uid sAMAccountName" >> /etc/nslcd.conf
 fi
 if [[ ! -z "${SEARCHSCOPE}" ]]; then
     sed -i "s/^scope.*$/scope ${SEARCHSCOPE}/" /config/pam_ldap.conf
