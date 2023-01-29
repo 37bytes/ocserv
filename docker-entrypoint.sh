@@ -220,7 +220,7 @@ EOSRV
     fi
     if [ -f /config/cloudflare.ini ]; then
       certbot certonly --dns-cloudflare \
-      --dns-cloudflare-credentials /etc/ocserv/cloudflare.ini --email $EMAIL -d $DOMAIN \
+      --dns-cloudflare-credentials /config/cloudflare.ini --email $EMAIL -d $DOMAIN \
       --non-interactive --agree-tos
     else
       certbot certonly --non-interactive --agree-tos \
