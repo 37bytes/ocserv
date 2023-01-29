@@ -201,7 +201,7 @@ if [ ! -f /config/certs/server-key.pem ] || [ ! -f /config/certs/server-cert.pem
     signing_key
     cert_signing_key
     crl_signing_key
-    EOCA
+EOCA
     certtool --generate-self-signed --load-privkey ca-key.pem --template ca.tmpl --outfile ca.pem
     certtool --generate-privkey --outfile server-key.pem
     cat > server.tmpl <<-EOSRV
@@ -211,7 +211,7 @@ if [ ! -f /config/certs/server-key.pem ] || [ ! -f /config/certs/server-cert.pem
     signing_key
     encryption_key
     tls_www_server
-    EOSRV
+EOSRV
     certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem
   else
     # Create letsencrypt certificate
