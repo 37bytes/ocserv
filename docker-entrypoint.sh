@@ -233,6 +233,7 @@ EOSRV
     # Start crond
     echo '15 00 * * * certbot renew --quiet && systemctl restart ocserv' > /var/spool/cron/crontabs/root
     service cron restart
+  fi
 else
 	echo "$(date) [info] Using existing certificates in /config/certs"
 fi
