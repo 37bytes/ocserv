@@ -140,15 +140,19 @@ fi
 # Configure pam-ldap
 if [[ ! -z "${BASEDN}" ]]; then
     sed -i "s/^base.*$/base ${BASEDN}/" /config/pam_ldap.conf
+    sed -i "s/^#base.*$/base ${BASEDN}/" /etc/nslcd.conf
 fi
 if [[ ! -z "${LDAPURI}" ]]; then
     sed -i "s|^uri.*$|uri ${LDAPURI}|" /config/pam_ldap.conf
+    sed -i "s|^uri.*$|uri ${LDAPURI}|" /etc/nslcd.conf
 fi
 if [[ ! -z "${BINDDN}" ]]; then
     sed -i "s/^binddn.*$/binddn ${BINDDN}/" /config/pam_ldap.conf
+    sed -i "s/^#binddn.*$/binddn ${BINDDN}/" /etc/nslcd.conf
 fi
 if [[ ! -z "${BINDPW}" ]]; then
     sed -i "s/^bindpw.*$/bindpw ${BINDPW}/" /config/pam_ldap.conf
+    sed -i "s/^#bindpw.*$/bindpw ${BINDPW}/" /etc/nslcd.conf
 fi
 if [[ ! -z "${SEARCHSCOPE}" ]]; then
     sed -i "s/^scope.*$/scope ${SEARCHSCOPE}/" /config/pam_ldap.conf
