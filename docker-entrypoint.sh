@@ -1,13 +1,12 @@
 #!/bin/bash
 
+rsync -a "/etc/default/ocserv/ocserv" "/etc/pam.d/ocserv"
+sed -i 's|OTP_URL|'"$OTP_URL"'|' /etc/default/ocserv/auth.py
+
 # Copy default config files if removed
 if [[ ! -e /config/ocserv.conf || ! -e /config/connect.sh || ! -e /config/disconnect.sh ]]; then
 	echo "$(date) [err] Required config files are missing. Replacing with default backups!"
 	rsync -vzr --ignore-existing "/etc/default/ocserv/" "/config"
-fi
-if [ ! -s /config/pam_ldap.conf ]; then
-    echo "pam_ldap config is empty, initialising..."
-	rsync -vzr --ignore-existing "/etc/default/pam_ldap/" "/config"
 fi
 
 chmod a+x /config/*.sh
@@ -137,32 +136,6 @@ if [[ ! -z "${CLIENTNETMASK}" ]]; then
     sed -i "s/^ipv4-netmask.*$/ipv4-netmask = ${CLIENTNETMASK}/" /config/ocserv.conf
 fi
 
-# Configure pam-ldap
-if [[ ! -z "${BASEDN}" ]]; then
-    sed -i "s/^base.*$/base ${BASEDN}/" /config/pam_ldap.conf
-    sed -i "s/^#base.*$/base ${BASEDN}/" /etc/nslcd.conf
-fi
-if [[ ! -z "${LDAPURI}" ]]; then
-    sed -i "s|^uri.*$|uri ${LDAPURI}|" /config/pam_ldap.conf
-    sed -i "s|^uri.*$|uri ${LDAPURI}|" /etc/nslcd.conf
-fi
-if [[ ! -z "${BINDDN}" ]]; then
-    sed -i "s/^binddn.*$/binddn ${BINDDN}/" /config/pam_ldap.conf
-    sed -i "s/^#binddn.*$/binddn ${BINDDN}/" /etc/nslcd.conf
-fi
-if [[ ! -z "${BINDPW}" ]]; then
-    sed -i "s/^bindpw.*$/bindpw ${BINDPW}/" /config/pam_ldap.conf
-    sed -i "s/^#bindpw.*$/bindpw ${BINDPW}/" /etc/nslcd.conf
-    echo "filter passwd (objectClass=user)" >> /etc/nslcd.conf
-    echo "map passwd uid sAMAccountName" >> /etc/nslcd.conf
-fi
-if [[ ! -z "${SEARCHSCOPE}" ]]; then
-    sed -i "s/^scope.*$/scope ${SEARCHSCOPE}/" /config/pam_ldap.conf
-fi
-if [[ ! -z "${PAM_LOGIN_ATTRIBUTE}" ]]; then
-    sed -i "s/^pam_login_attribute.*$/pam_login_attribute ${PAM_LOGIN_ATTRIBUTE}/" /config/pam_ldap.conf
-fi
-
 ##### Generate certs if none exist #####
 if [ ! -f /config/certs/server-key.pem ] || [ ! -f /config/certs/server-cert.pem ]; then
   if [ -z "$DOMAIN" ]; then
@@ -259,7 +232,8 @@ chmod 600 /dev/net/tun
 
 chmod -R 777 /config
 
-service nslcd start
+service rsyslog start
+
 
 # Run OpenConnect Server
 exec "$@"
