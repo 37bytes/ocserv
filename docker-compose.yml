@@ -17,11 +17,11 @@ services:
     cap_add:
       - NET_ADMIN
     privileged: true
-    healthcheck:
-      test: ["CMD", "curl", "-k", "-f", "-m 5", "https://localhost:443"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-    command: ocserv -c /config/ocserv.conf -f --debug=8
+#    healthcheck:
+#      test: ["CMD", "curl", "-k", "-f", "-m 5", "https://localhost:443"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 3
+#      start_period: 10s
+    command: ocserv -c /config/ocserv.conf -f --debug=1
     restart: unless-stopped

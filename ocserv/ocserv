@@ -2,5 +2,5 @@
 # /etc/pam.d/ocserv - specify the PAM behaviour of ocserv
 #
 
-auth sufficient /lib/x86_64-linux-gnu/security/pam_python.so /etc/default/ocserv/auth.py
-account sufficient /lib/x86_64-linux-gnu/security/pam_python.so /etc/default/ocserv/auth.py
+auth sufficient /usr/lib/security/pam_python.so /etc/default/ocserv/auth.py
+account sufficient /usr/lib/security/pam_python.so  /etc/default/ocserv/auth.py
